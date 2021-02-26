@@ -1,0 +1,81 @@
+if(metric=="MacArthur-Levins"){
+  # calculate the mahalnobis component
+  bd_mah = as.vector(t(u1-u2)%*%solve(S)%*%(u1-u2))
+  bd_mah_1d = (1/8)*(u1-u2)^2/diag(S)
+  bd_mah_cor = bd_mah - sum(bd_mah_1d)
+                     
+  # calculate the determinant ratio
+  bd_det = log(det(S)/det(S1))
+  bd_det_1d = log(diag(S)/diag(S1))
+  bd_det_cor = bd_det-sum(bd_det_1d)
+                     
+  # caculate the contribution of each variable and the correlation component
+  bd = bd_mah+bd_det
+  bd_1d = bd_mah_1d+bd_det_1d
+  bd_cor = bd_mah_cor+bd_det_cor
+                     
+  bd_mah_all = c(bd_mah,bd_mah_1d,bd_mah_cor)
+  names(bd_mah_all) = c("total",var.name,"cor")
+  bd_det_all = c(bd_det,bd_det_1d,bd_det_cor)
+  names(bd_det_all) = c("total",var.name,"cor")
+  bd_all = c(bd,bd_1d,bd_cor)
+  names(bd_all) = c("total",var.name,"cor")
+                     
+  return(list(MacArthur_Levins=bd_all,
+              Mahalanobis_distance=bd_mah_all,
+              Determinant_ratio=bd_det_all))
+}
+if(metric=="Pinaka"){
+  # calculate the mahalnobis component
+  bd_mah = as.vector(t(u1-u2)%*%solve(S)%*%(u1-u2))
+  bd_mah_1d = (u1-u2)^2/diag(S)
+  bd_mah_cor = bd_mah - sum(bd_mah_1d)
+  
+  # calculate the determinant ratio
+  bd_det = (1/2)*log(det(S)/(det(S1)*det(S2))^0.5)
+  bd_det_1d = (1/2)*log(diag(S)/(diag(S1)*diag(S2))^0.5)
+  bd_det_cor = bd_det-sum(bd_det_1d)
+  
+  # caculate the contribution of each variable and the correlation component
+  bd = bd_mah+bd_det
+  bd_1d = bd_mah_1d+bd_det_1d
+  bd_cor = bd_mah_cor+bd_det_cor
+  
+  bd_mah_all = c(bd_mah,bd_mah_1d,bd_mah_cor)
+  names(bd_mah_all) = c("total",var.name,"cor")
+  bd_det_all = c(bd_det,bd_det_1d,bd_det_cor)
+  names(bd_det_all) = c("total",var.name,"cor")
+  bd_all = c(bd,bd_1d,bd_cor)
+  names(bd_all) = c("total",var.name,"cor")
+  
+  return(list(Pianka=bd_all,
+              Mahalanobis_distance=bd_mah_all,
+              Determinant_ratio=bd_det_all))
+}
+if(metric=="Morisita"){
+  # calculate the mahalnobis component
+  bd_mah = as.vector(t(u1-u2)%*%solve(S)%*%(u1-u2))
+  bd_mah_1d = (u1-u2)^2/diag(S)
+  bd_mah_cor = bd_mah - sum(bd_mah_1d)
+  
+  # calculate the determinant ratio
+  bd_det = log(det(S)^0.5*(det(S1)^0.5+det(S2)^0.5)/(2*(det(S1)*det(S2))^0.5))
+  bd_det_1d = NA
+  bd_det_cor = NA
+            
+  # caculate the contribution of each variable and the correlation component
+  bd = bd_mah+bd_det
+  bd_1d = NA
+  bd_cor = NA
+            
+  bd_mah_all = c(bd_mah,bd_mah_1d,bd_mah_cor)
+  names(bd_mah_all) = c("total",var.name,"cor")
+  bd_det_all = c(bd_det,bd_det_1d,bd_det_cor)
+  names(bd_det_all) = c("total",var.name,"cor")
+  bd_all = c(bd,bd_1d,bd_cor)
+  names(bd_all) = c("total",var.name,"cor")
+            
+  return(list(Morisita=bd_all,
+              Mahalanobis_distance=bd_mah_all,
+              Determinant_ratio=bd_det_all))
+}
