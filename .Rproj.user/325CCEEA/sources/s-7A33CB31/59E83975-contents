@@ -185,3 +185,4 @@ MVNH_dissimilarity = function(db1=NULL,db2=NULL,mean1=NULL,mean2=NULL,cov1=NULL,
   }
 }
 #MVNH_dissimilarity(db1,db2,var.names = c("temp","prec"))
+#I love Susie!
